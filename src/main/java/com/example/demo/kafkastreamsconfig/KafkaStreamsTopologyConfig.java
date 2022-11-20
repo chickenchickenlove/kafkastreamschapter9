@@ -1,6 +1,5 @@
 package com.example.demo.kafkastreamsconfig;
 
-import com.example.demo.CountValueTransformer;
 import com.example.demo.domain.StockTransaction;
 import com.example.demo.util.GsonDeserializer;
 import com.example.demo.util.GsonSerializer;

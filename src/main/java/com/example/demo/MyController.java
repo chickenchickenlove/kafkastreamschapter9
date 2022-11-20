@@ -197,8 +197,6 @@ public class MyController {
     @GetMapping("/show/{storeName}")
     public String showKafkaStreamMetaData(@PathVariable String storeName) {
         HashMap<String, String> ret = new HashMap<>();
-        ReadOnlyKeyValueStore<String, Long> helloStore = kafkaStreams.store(StoreQueryParameters.fromNameAndType("hello", QueryableStoreTypes.keyValueStore()));
-
         Collection<StreamsMetadata> hello = kafkaStreams.streamsMetadataForStore(storeName);
         for (StreamsMetadata streamsMetadata : hello) {
             String value = gson.toJson(streamsMetadata.topicPartitions());

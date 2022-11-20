@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.kafkastreamsconfig;
 
 import com.example.demo.domain.StockTransaction;
 import org.apache.kafka.streams.kstream.Transformer;

@@ -23,7 +23,6 @@ public class KafkaInjectListener {
 
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-
         MyController myController = provider.getObject();
 
         // set stateListener
@@ -36,7 +35,4 @@ public class KafkaInjectListener {
         // kafka streams start
         kafkaStreams.start();
     }
-
-
-
 }

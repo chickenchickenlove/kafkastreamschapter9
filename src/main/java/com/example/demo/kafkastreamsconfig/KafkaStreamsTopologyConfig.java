@@ -8,6 +8,7 @@ import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
@@ -15,27 +16,30 @@ import org.apache.kafka.streams.state.KeyValueBytesStoreSupplier;
 import org.apache.kafka.streams.state.KeyValueStore;
 import org.apache.kafka.streams.state.StoreBuilder;
 import org.apache.kafka.streams.state.Stores;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
 import static org.apache.kafka.streams.Topology.AutoOffsetReset.EARLIEST;
 
-@Component
-public class KafkaStreamsTopology {
+@Configuration
+public class KafkaStreamsTopologyConfig {
 
-    private final KafkaStreamsConfig kafkaStreamsConfig;
+    @Bean
+    public KafkaStreamsConfig kafkaStreamsConfig() {
+        Properties props = new Properties();
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "ABCDEF");
+        props.put(StreamsConfig.APPLICATION_SERVER_CONFIG, "localhost:30002");
 
-    @Autowired
-    public KafkaStreamsTopology(KafkaStreamsConfig kafkaStreamsConfig) {
-        this.kafkaStreamsConfig = kafkaStreamsConfig;
+        return new KafkaStreamsConfig(props);
     }
 
-    @Bean(name = "kafkaStreamComponent")
-    public KafkaStreams kafkaStreams() {
 
+    @Bean
+    public KafkaStreams kafkaStreams() {
+        KafkaStreamsConfig kafkaStreamsConfig = kafkaStreamsConfig();
         Properties props = kafkaStreamsConfig.getProps();
 
         GsonSerializer<StockTransaction> stockTransactionGsonSerializer = new GsonSerializer<>();
@@ -65,7 +69,5 @@ public class KafkaStreamsTopology {
         final Topology topology = streamsBuilder.build();
         return new KafkaStreams(topology, props);
     }
-
-
 
 }

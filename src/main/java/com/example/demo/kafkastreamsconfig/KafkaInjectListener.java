@@ -35,8 +35,6 @@ public class KafkaInjectListener {
 
         // kafka streams start
         kafkaStreams.start();
-
-
     }
 
 
